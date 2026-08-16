@@ -1,0 +1,17 @@
+{
+  "formatName": "Match Scouting 2026",
+  "columns": [
+    { "key": "matchNumber", "label": "Match #",  "showInTable": true },
+    { "key": "scoutName",   "label": "Scout",    "showInTable": true },
+    { "key": "teamNumA",    "label": "Team A",   "showInTable": true },
+    { "key": "teamNumB",    "label": "Team B",   "showInTable": true },
+    { "key": "offenceA",    "label": "Offence A",  "showInTable": false  },
+    { "key": "offenceB",    "label": "Offence B",  "showInTable": false  },
+    { "key": "defenceA",    "label": "Defence A",  "showInTable": false  },
+    { "key": "defenceB",    "label": "Defence B",  "showInTable": false  },
+    { "key": "driverA",     "label": "Driver A",  "showInTable": false  },
+    { "key": "driverB",     "label": "Driver B",  "showInTable": false  },
+    { "key": "notesA",      "label": "Notes A",  "showInTable": false  },
+    { "key": "notesB",      "label": "Notes B",  "showInTable": false  }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "formatName": "Pit QR Test 2025",
+  "columns": [
+    { "key": "groundIntake", "label": "Ground intake",  "showInTable": false },
+    { "key": "drivetrain", "label": "Drivetrain",  "showInTable": false },
+    { "key": "weight", "label": "Weight",  "showInTable": false },
+    { "key": "height", "label": "Height",  "showInTable": false },
+    { "key": "teamNum", "label": "Team Number",  "showInTable": true },
+    { "key": "notes", "label": "Extra Notes",  "showInTable": true },
+    { "key": "algae", "label": "Algae",  "showInTable": false },
+    { "key": "coral", "label": "Coral",  "showInTable": false },
+    { "key": "climb", "label": "Climb",  "showInTable": false }
+
+  ]
+}
