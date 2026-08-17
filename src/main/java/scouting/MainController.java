@@ -51,7 +51,8 @@ public class MainController {
 
     @FXML
     private ListView<String> btStatusList;
-    @FXML private javafx.scene.layout.HBox qrControlsBox;
+    @FXML
+    private javafx.scene.layout.HBox qrControlsBox;
 
     private Path currentRunFile;
     private int collectedCount = 0;
@@ -130,7 +131,7 @@ public class MainController {
             if (chosen == null) return; // user cancelled — don't start anything
 
             currentRunFile = chosen;
-            csvManager = new CSVManager(currentRunFile.getParent());
+            csvManager = new CSVManager();
 
             Schema schema = schemaManager.get(formatDropdown.getValue());
             entryTable.getItems().clear();
@@ -186,9 +187,9 @@ public class MainController {
         settings.useQr = !settings.useQr;
         settings.save();
         if (!settings.useQr) {
-            toggleModes.setText("Using: Bluetooth");
+            toggleModes.setText("USING: BLUETOOTH");
         } else {
-            toggleModes.setText("Using: Qr Scanning");
+            toggleModes.setText("USING: QR SCANNING");
         }
     }
 
@@ -223,7 +224,7 @@ public class MainController {
         rowValues.forEach(row::set);
         entryTable.getItems().add(row);
         try {
-            csvManager.appendRow(schema, rowValues);
+            csvManager.appendRow(currentRunFile, schema, rowValues);
         } catch (IOException e) {
             System.err.println("Failed to write row: " + e.getMessage());
         }
@@ -298,6 +299,7 @@ public class MainController {
         btStatusList.setManaged(!qr);
         qrControlsBox.setVisible(qr);
         qrControlsBox.setManaged(qr);
+        if (qr) toggleModes.setText("USING: QR SCANNING");
     }
 
     private void showCameraError(String message) {

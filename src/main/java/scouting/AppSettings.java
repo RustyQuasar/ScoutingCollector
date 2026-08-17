@@ -15,7 +15,7 @@ public class AppSettings {
     private static final Path SETTINGS_FILE =
             Path.of(System.getProperty("user.home"), ".scoutingapp", "settings.json");
 
-    public String schemasFolder = "schemas";
+    public String schemasFolder = resolveDefaultSchemasFolder();
     public String lastFormatName = "", lastCameraName = null;
     public boolean useQr = false;
     public Boolean mirrorPreview = false;
@@ -48,6 +48,16 @@ public class AppSettings {
     }
 
     public Path getSchemasFolder() { return Path.of(schemasFolder); }
+
+    private static String resolveDefaultSchemasFolder() {
+        try {
+            Path appDir = Path.of(AppSettings.class.getProtectionDomain()
+                    .getCodeSource().getLocation().toURI()).getParent();
+            return appDir.resolve("schemas").toString();
+        } catch (Exception e) {
+            return "schemas"; // fallback for dev/IDE runs where this lookup can behave oddly
+        }
+    }
 
     public Path getLastFolderFor(String formatName) {
         String path = lastFolderByFormat.get(formatName);

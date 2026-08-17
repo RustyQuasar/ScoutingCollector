@@ -5,6 +5,7 @@ import scouting.schema.Schema;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -31,7 +32,7 @@ public class SchemaManager {
 
         try (Stream<Path> files = Files.list(schemasFolder)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".json")).toList()) {
-                try (Reader reader = Files.newBufferedReader(file)) {
+                try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
                     Schema schema = gson.fromJson(reader, Schema.class);
 
                     if (schema == null || schema.formatName == null || schema.columns == null) {

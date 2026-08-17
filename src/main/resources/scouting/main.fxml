@@ -28,7 +28,7 @@
                            fitWidth="400" fitHeight="300"/>
                 <ListView fx:id="btStatusList" style="-fx-background-color: white;"/>
             </StackPane>
-            <Label fx:id="statusLabel" text="Not scanning" style="-fx-font-style: arial;" />
+            <Label fx:id="statusLabel" text="Not scanning"/>
             <HBox spacing="10" alignment="CENTER_LEFT" fx:id="qrControlsBox">
                 <Label text="Camera:"/>
                 <ComboBox fx:id="cameraDropdown"/>
