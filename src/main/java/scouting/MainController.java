@@ -314,7 +314,7 @@ public class MainController {
 
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Schema File Issues");
-        alert.setHeaderText("One or more format files (.json) have formatting problems:");
+        alert.setHeaderText("There is a problem with your .json data formats:");
         alert.setContentText(String.join("\n\n", warnings));
         alert.showAndWait();
     }

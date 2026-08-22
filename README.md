@@ -14,6 +14,11 @@ Usage: <br/>
 - Add/Change .json files to add data formats, there should be atleast one file provided as a sample (if there isn't, there's 2 examples in this repo)<br/>
 - The app UI should be self-explanatory<br/>
 - QRCodes are meant to scan CSV file data, and Bluetooth should connect to COM ports. They're designed to be interchangeable in receiving data as well as the app is interchangeable about sending data. <br/>
+  <br/>
+and yes, these errors are normal, don't know why they're here:<br/>
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".<br/>
+SLF4J: Defaulting to no-operation (NOP) logger implementation<br/>
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.<br/>
 <br/>
 Development / Updating:<br/>
 <br/>

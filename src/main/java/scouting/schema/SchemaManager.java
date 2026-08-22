@@ -27,35 +27,37 @@ public class SchemaManager {
 
         if (!Files.exists(schemasFolder)) {
             Files.createDirectories(schemasFolder);
-            return;
-        }
+        } else {
+            try (Stream<Path> files = Files.list(schemasFolder)) {
+                for (Path file : files.filter(p -> p.toString().endsWith(".json")).toList()) {
+                    try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
+                        Schema schema = gson.fromJson(reader, Schema.class);
 
-        try (Stream<Path> files = Files.list(schemasFolder)) {
-            for (Path file : files.filter(p -> p.toString().endsWith(".json")).toList()) {
-                try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-                    Schema schema = gson.fromJson(reader, Schema.class);
+                        if (schema == null || schema.formatName == null || schema.columns == null) {
+                            loadWarnings.add(file.getFileName() + ": missing required fields (formatName/columns) — skipped.");
+                            continue;
+                        }
 
-                    if (schema == null || schema.formatName == null || schema.columns == null) {
-                        loadWarnings.add(file.getFileName() + ": missing required fields (formatName/columns) — skipped.");
-                        continue;
+                        int before = schema.columns.size();
+                        schema.columns.removeIf(Objects::isNull);
+                        int removed = before - schema.columns.size();
+                        if (removed > 0) {
+                            loadWarnings.add(file.getFileName() + ": " + removed
+                                    + " malformed column entry" + (removed == 1 ? "" : "ies")
+                                    + " (check for a stray comma) — those columns were skipped, rest of the format still loaded.");
+                        }
+
+                        schemasByName.put(schema.formatName, schema);
+                    } catch (Exception e) {
+                        loadWarnings.add(file.getFileName() + ": failed to load (" + e.getMessage() + ") — check the JSON syntax.");
                     }
-
-                    // filter out any null entries from a malformed columns array,
-                    // rather than crashing later when something iterates over them
-                    int before = schema.columns.size();
-                    schema.columns.removeIf(Objects::isNull);
-                    int removed = before - schema.columns.size();
-                    if (removed > 0) {
-                        loadWarnings.add(file.getFileName() + ": " + removed
-                                + " malformed column entry" + (removed == 1 ? "" : "ies")
-                                + " (check for a stray comma) — those columns were skipped, rest of the format still loaded.");
-                    }
-
-                    schemasByName.put(schema.formatName, schema);
-                } catch (Exception e) {
-                    loadWarnings.add(file.getFileName() + ": failed to load (" + e.getMessage() + ") — check the JSON syntax.");
                 }
             }
+        }
+
+        if (schemasByName.isEmpty()) {
+            loadWarnings.add("No format files found in the \"schemas\" folder ("
+                    + schemasFolder.toAbsolutePath() + "). Add at least one .json file to collect data.");
         }
     }
 
